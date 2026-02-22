@@ -1,5 +1,9 @@
 const API_BASE = import.meta.env.VITE_API_URL ?? '/api'
 
+export function getApiBase(): string {
+  return API_BASE as string
+}
+
 export interface ApiError {
   message: string
   code?: string
@@ -86,6 +90,29 @@ export async function apiPut<T>(
 
   const response = await fetch(`${API_BASE}${path}`, {
     method: 'PUT',
+    body: body ? JSON.stringify(body) : undefined,
+    ...options,
+    headers,
+  })
+  return handleResponse<T>(response)
+}
+
+export async function apiPatch<T>(
+  path: string,
+  body?: unknown,
+  options?: RequestInit
+): Promise<T> {
+  const token = localStorage.getItem('auth_token')
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    ...options?.headers,
+  }
+  if (token) {
+    (headers as Record<string, string>)['Authorization'] = `Bearer ${token}`
+  }
+
+  const response = await fetch(`${API_BASE}${path}`, {
+    method: 'PATCH',
     body: body ? JSON.stringify(body) : undefined,
     ...options,
     headers,

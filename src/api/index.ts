@@ -11,3 +11,5 @@ export {
   logSearchEvent,
 } from './search-curricula'
 export * from './settings'
+export * from './notifications'
+export * from './scheduler'

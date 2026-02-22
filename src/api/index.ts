@@ -1,4 +1,5 @@
 export * from './curriculum'
+export * from './curriculum-detail'
 export * from './lessons'
 export * from './images'
 export * from './search'

@@ -40,13 +40,31 @@ export interface ImageRequest {
   license_url?: string
 }
 
+export type LessonBodyBlockType = 'paragraph' | 'heading' | 'image' | 'deep_dive' | 'quiz' | 'code_block' | 'callout' | 'list'
+
+export interface LessonBodyBlock {
+  id: string
+  type: LessonBodyBlockType
+  content?: string
+  level?: number
+  items?: string[]
+  caption?: string
+  url?: string
+  alt?: string
+  title?: string
+  options?: string[]
+  correctIndex?: number
+}
+
 export interface Lesson {
   id: string
   title: string
   content: string
   body?: string
+  bodyBlocks?: LessonBodyBlock[]
   objectives?: string[]
   estimatedMinutes: number
+  summary?: string
   imagePrompt?: string
   imageUrl?: string
   imageRequests?: ImageRequest[]
@@ -59,6 +77,10 @@ export interface Lesson {
   quiz?: QuizQuestion[]
   tags?: string[]
   order_index?: number
+  position?: number
+  chapter_id?: string
+  difficulty?: 'intro' | 'intermediate' | 'advanced'
+  media?: Record<string, unknown>[]
 }
 
 export interface Chapter {
@@ -143,6 +165,33 @@ export interface GenerationParams {
   focus_tags?: string[]
   prior_knowledge?: 'none' | 'beginner' | 'intermediate' | 'advanced'
   advanced_options?: AdvancedOptions
+}
+
+export interface CurriculumVersion {
+  id: string
+  curriculum_id: string
+  snapshot: Record<string, unknown>
+  author_id?: string
+  change_summary?: string
+  created_at: string
+}
+
+export interface ReorderPayload {
+  chapters: { id: string; position: number }[]
+  lessons: { id: string; position: number; chapterId: string }[]
+}
+
+export interface ExportJob {
+  id: string
+  status: 'queued' | 'running' | 'succeeded' | 'failed'
+  download_url?: string
+  format?: 'pdf' | 'markdown' | 'csv' | 'zip'
+}
+
+export interface ImportPreview {
+  title: string
+  chapters: { title: string; lessons: { title: string; estimatedMinutes?: number }[] }[]
+  mergeOptions: 'replace' | 'append' | 'create_new'
 }
 
 export interface GenerationRequest {

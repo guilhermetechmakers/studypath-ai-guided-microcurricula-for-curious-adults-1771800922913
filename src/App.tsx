@@ -63,7 +63,7 @@ function App() {
               <Route path="search" element={<SearchPage />} />
               <Route path="scheduler" element={<SchedulerPage />} />
               <Route path="export" element={<ExportPage />} />
-              <Route path="settings" element={<SettingsPage />} />
+              <Route path="settings/*" element={<SettingsPage />} />
               <Route path="checkout" element={<CheckoutPage />} />
               <Route path="admin" element={<AdminPage />} />
             </Route>

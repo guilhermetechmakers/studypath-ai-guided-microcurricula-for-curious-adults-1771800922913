@@ -136,3 +136,27 @@ export async function apiDelete<T>(path: string, options?: RequestInit): Promise
   })
   return handleResponse<T>(response)
 }
+
+/** Multipart form data (e.g. avatar upload). Do not set Content-Type; browser sets it with boundary. */
+export async function apiPostMultipart<T>(
+  path: string,
+  formData: FormData,
+  options?: RequestInit
+): Promise<T> {
+  const token = localStorage.getItem('auth_token')
+  const headers: HeadersInit = {
+    ...options?.headers,
+  }
+  if (token) {
+    (headers as Record<string, string>)['Authorization'] = `Bearer ${token}`
+  }
+  delete (headers as Record<string, string>)['Content-Type']
+
+  const response = await fetch(`${API_BASE}${path}`, {
+    method: 'POST',
+    body: formData,
+    ...options,
+    headers,
+  })
+  return handleResponse<T>(response)
+}

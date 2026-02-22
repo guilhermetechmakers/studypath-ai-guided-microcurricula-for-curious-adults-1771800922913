@@ -26,7 +26,7 @@ const navItems = [
   { to: '/dashboard/create', icon: PlusCircle, label: 'Create Curriculum' },
   { to: '/dashboard/curricula', icon: BookOpen, label: 'My Curricula' },
   { to: '/dashboard/search', icon: Search, label: 'Search & Browse' },
-  { to: '/dashboard/scheduler', icon: Bell, label: 'Scheduler' },
+  { to: '/dashboard/scheduler', icon: Bell, label: 'Notifications & Scheduler' },
   { to: '/dashboard/export', icon: FileDown, label: 'Export & Import' },
   { to: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ]

@@ -1,4 +1,4 @@
-import { apiGet, apiPut, apiPost } from '@/lib/api'
+import { apiGet, apiPut } from '@/lib/api'
 import type {
   NotificationPreferences,
   NotificationCategories,

@@ -4,11 +4,9 @@ import * as notificationsApi from '@/api/notifications'
 import * as schedulerApi from '@/api/scheduler'
 import type {
   NotificationPreferences,
-  NotificationCategories,
   WeeklyAvailability,
   Session,
   CreateSessionPayload,
-  ScheduleSuggestionsResponse,
 } from '@/types/scheduler'
 
 const KEYS = {
@@ -86,7 +84,7 @@ export function useAvailability() {
     mutationFn: schedulerApi.updateAvailability,
     onSuccess: (data) => {
       queryClient.setQueryData(KEYS.availability, data)
-      queryClient.invalidateQueries({ queryKey: KEYS.suggestions() })
+      queryClient.invalidateQueries({ queryKey: ['scheduler', 'suggestions'] })
       toast.success('Availability saved')
     },
     onError: (err) => {
@@ -121,12 +119,12 @@ export function useSessions(params?: { from?: string; to?: string; limit?: numbe
   })
 }
 
-export function useScheduleSuggestions() {
+export function useScheduleSuggestions(horizonDays = 14) {
   return useQuery({
-    queryKey: KEYS.suggestions,
-    queryFn: () => schedulerApi.getScheduleSuggestions({ horizon_days: 14 }),
+    queryKey: [...KEYS.suggestions, horizonDays],
+    queryFn: () => schedulerApi.getScheduleSuggestions({ horizon_days: horizonDays }),
     retry: false,
-    enabled: false, // Fetch on demand
+    placeholderData: { suggestions: [], rationale: undefined },
   })
 }
 
@@ -183,10 +181,10 @@ export function useCancelSession() {
   })
 }
 
-export function useNotificationHistory(days?: number) {
+export function useNotificationHistory(days = 30) {
   return useQuery({
     queryKey: KEYS.history(days),
-    queryFn: () => notificationsApi.getNotificationHistory({ days: days ?? 7 }),
+    queryFn: () => notificationsApi.getNotificationHistory({ days }),
     retry: false,
     placeholderData: [],
   })

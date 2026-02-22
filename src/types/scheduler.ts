@@ -13,6 +13,8 @@ export interface NotificationPreferences {
   categories: NotificationCategories
   default_reminder_minutes: number
   updated_at: string
+  /** Optional: device push permission status from client */
+  push_token_status?: 'granted' | 'denied' | 'default'
 }
 
 /** Weekly availability - day 0=Sun, 6=Sat */

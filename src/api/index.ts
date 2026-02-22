@@ -12,4 +12,12 @@ export {
 } from './search-curricula'
 export * from './settings'
 export * from './notifications'
-export * from './scheduler'
+export {
+  getAvailability,
+  updateAvailability,
+  getScheduleSuggestions,
+  createSessions,
+  getSessions as getSchedulerSessions,
+  updateSession,
+  cancelSession,
+} from './scheduler'
